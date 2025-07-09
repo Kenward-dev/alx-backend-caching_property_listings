@@ -1,5 +1,6 @@
 from django.core.cache import cache
 from .models import Property
+import time
 
 def get_all_properties():
     """
@@ -9,6 +10,8 @@ def get_all_properties():
     properties = cache.get('all_properties')
     
     if not properties:
+        print("Cache miss. Fetching from database...")
+        time.sleep(3)
         properties = Property.objects.all()
         cache.set('all_properties', properties, 3600)
     
